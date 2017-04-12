@@ -267,9 +267,6 @@
   (integer 0 23)
   (assoc (hour (:value %1) true) :latent true)
 
-  "at <time-of-day>"
-  [#"(?i)ב" {:form :time-of-day}]
-  (dissoc %2 :latent)
 
   "at hour <time-of-day>"
   [#"(?i)בשעה" {:form :time-of-day}]
@@ -316,10 +313,6 @@
                        [[(hour 12) (hour 0) false] :pm])]
     (-> (intersect %1 (apply interval p))
         (assoc :form :time-of-day)))
-
-  "noon"
-  #"(?i)ב?צהריים"
-  (hour 12 false)
 
   "midnight|EOD|end of day"
   #"(?i)ב?חצות"
@@ -371,31 +364,32 @@
 
   "morning" ;; TODO "3am this morning" won't work since morning starts at 4...
   [#"(?i)ב?בוקר"]
-  (assoc (interval (hour 4 false) (hour 12 false) false) :form :part-of-day :latent true)
-
-  ; "early morning"
-  ; [#"(?i)early ((in|hours of) the )?morning"]
-  ; (assoc (interval (hour 4 false) (hour 9 false) false) :form :part-of-day :latent true)
+  (assoc (interval (hour 1 false) (hour 12 false) false) :form :part-of-day :latent true)
 
   "afternoon"
   [#"(?i)אחה״?צ|אחר הצהריים"]
   (assoc (interval (hour 12 false) (hour 19 false) false) :form :part-of-day :latent true)
 
-  "evening|night"
+  "evening"
   [#"(?i)ב?ערב"]
   (assoc (interval (hour 18 false) (hour 0 false) false) :form :part-of-day :latent true)
+
+  "night"
+  [#"(?i)ב?לילה"]
+  (assoc (interval (hour 18 false) (hour 6 false) false) :form :part-of-day :latent true)
 
   "lunch"
   [#"(?i)ב?צהריים"]
   (assoc (interval (hour 12 false) (hour 14 false) false) :form :part-of-day :latent true)
 
-  ; "in|during the <part-of-day>" ;; removes latent
-  ; [#"(?i)(in|during)( the)?" {:form :part-of-day}]
-  ; (dissoc %2 :latent)
+  ; The approx-pm rule is more hebrew specific as noon can be interpeted as :pm
+  "approx-pm"
+  [#"(?i)ב?צהריים|ב?ערב"]
+  (assoc (interval (hour 12 false) (hour 23 false) false) :form :part-of-day :latent true)
 
-  ; "this <part-of-day>"
-  ; [#"(?i)this" {:form :part-of-day}]
-  ; (assoc (intersect (cycle-nth :day 0) %2) :form :part-of-day) ;; removes :latent
+  ; "approx-am"
+  ; [#"(?i)ב?בוקר|ב?לילה"]
+  ; (assoc (interval (hour 1 false) (hour 11 false) false) :form :part-of-day :latent true)
 
   "this evening"
   #"(?i)הערב"
@@ -411,9 +405,9 @@
   [(dim :time) #"(?i)ב" {:form :part-of-day}]
   (intersect %3 %1)
 
-  "<part-of-day> of <time>" ; since "morning" "evening" etc. are latent, general time+time is blocked
-  [#"(?i)ב" {:form :part-of-day} #"(?i)של" (dim :time)]
-  (intersect %2 %4)
+  "at <time> of <part-of-day>" ; since "morning" "evening" etc. are latent, general time+time is blocked
+  [#"(?i)ב" (dim :time) #"(?i)ב" {:form :part-of-day}]
+  (intersect %4 %2)
 
   ; ; Other intervals: week-end, seasons
 
@@ -422,6 +416,35 @@
   (interval (intersect (day-of-week 5) (hour 18 false))
             (intersect (day-of-week 1) (hour 0 false))
             false)
+
+  ; Precision
+  ; FIXME
+  ; - should be applied to all dims not just time-of-day
+  ;-  shouldn't remove latency, except maybe -ish
+
+  "<time-of-day> approximately" ; 7ish
+  [{:form :time-of-day} #"(?i)(בערך)"]
+  (-> %1
+    (dissoc :latent)
+    (merge {:precision "approximate"}))
+
+  "<time-of-day> sharp" ; sharp
+  [{:form :time-of-day} #"(?i)(בי?דיוק|בול)"]
+  (-> %1
+    (dissoc :latent)
+    (merge {:precision "exact"}))
+
+  "about <time-of-day>" ; about
+  [#"(?i)(ב?איזור|ב?סביבות|בערך)" {:form :time-of-day}]
+  (-> %2
+    (dissoc :latent)
+    (merge {:precision "approximate"}))
+
+  "exactly <time-of-day>" ; sharp
+  [#"(?i)בי?דיוק" {:form :time-of-day} ]
+  (-> %2
+    (dissoc :latent)
+    (merge {:precision "exact"}))
 
   ; ; Intervals
 
