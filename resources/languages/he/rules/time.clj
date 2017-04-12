@@ -280,14 +280,14 @@
   #"(?i)((?:[01]?\d)|(?:2[0-3]))[:.]([0-5]\d)"
   (hour-minute (Integer/parseInt (first (:groups %1)))
                (Integer/parseInt (second (:groups %1)))
-               true)
+               false)
 
   "hh:mm:ss"
   #"(?i)((?:[01]?\d)|(?:2[0-3]))[:.]([0-5]\d)[:.]([0-5]\d)"
   (hour-minute-second (Integer/parseInt (first (:groups %1)))
                (Integer/parseInt (second (:groups %1)))
                (Integer/parseInt (second (next (:groups %1))))
-               true)
+               false)
 
   "hhmm (military) am|pm" ; hh only from 00 to 12
   [#"(?i)((?:1[012]|0?\d))([0-5]\d)" #"(?i)([ap])\.?m?\.?"]
