@@ -346,19 +346,17 @@
   [#(:relative-minutes %) #"(?i)אחרי" (dim :time :full-hour)]
   (hour-relativemin (:full-hour %3) (:relative-minutes %1) true)
 
-  ; Formatted dates and times
+  "dd/mm/yyyy"
+  #"(3[01]|[12]\d|0?[1-9])\/(1[0-2]|0?[1-9])\/(\d{2,4})"
+  (parse-dmy (first (:groups %1)) (second (:groups %1)) (nth (:groups %1) 2) true)
 
-  "mm/dd/yyyy"
-  #"(0?[1-9]|1[0-2])[/-](3[01]|[12]\d|0?[1-9])[-/](\d{2,4})"
-  (parse-dmy (second (:groups %1)) (first (:groups %1)) (nth (:groups %1) 2) true)
+  "dd-mm-yyyy"
+  #"(3[01]|[12]\d|0?[1-9])-(1[0-2]|0?[1-9])-(\d{2,4})"
+  (parse-dmy (first (:groups %1)) (second (:groups %1)) (nth (:groups %1) 2) true)
 
-  "yyyy-mm-dd"
-  #"(\d{2,4})-(0?[1-9]|1[0-2])-(3[01]|[12]\d|0?[1-9])"
-  (parse-dmy (nth (:groups %1) 2) (second (:groups %1)) (first (:groups %1)) true)
-
-  "mm/dd"
-  #"(0?[1-9]|1[0-2])/(3[01]|[12]\d|0?[1-9])"
-  (parse-dmy (second (:groups %1)) (first (:groups %1)) nil true)
+  "dd/mm"
+  #"(3[01]|[12]\d|0?[1-9])\/(1[0-2]|0?[1-9])"
+  (parse-dmy (first (:groups %1)) (second (:groups %1)) nil true)
 
   ; Part of day (morning, evening...). They are intervals.
 
