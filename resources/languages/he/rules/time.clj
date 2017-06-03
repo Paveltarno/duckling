@@ -213,13 +213,17 @@
   ; - mm/dd (and other numerical formats like yyyy-mm-dd etc.)
   ; In general we are flexible and accept both ordinals (3rd) and numbers (3)
 
-  "the <day-of-month> (ordinal)" ; this one is not latent
+  "the <day-of-month> of month(ordinal)" ; this one is not latent
+  [#"(?i)ה" (dim :ordinal #(<= 1 (:value %) 31)) #"(?i)(ל|ה)חודש"]
+  (day-of-month (:value %2))
+
+  "the <day-of-month>" ; this one is not latent
   [#"(?i)ה" (dim :ordinal #(<= 1 (:value %) 31))]
   (day-of-month (:value %2))
 
   "<day-of-month> (ordinal)" ; this one is latent
-  [(dim :ordinal #(<= 1 (:value %) 31))]
-  (assoc (day-of-month (:value %1)) :latent true)
+  [#"(?i)ה" (dim :ordinal #(<= 1 (:value %) 31))]
+  (assoc (day-of-month (:value %2)) :latent true)
 
   "the <day-of-month> (non ordinal)" ; this one is latent
   [#"(?i)ה/S" (integer 1 31)]
@@ -463,7 +467,7 @@
   (interval %2 %4 true)
 
   "between <datetime> and <datetime> (interval)"
-  [#"(?i)בין" (dim :time) #"ל" (dim :time)]
+  [#"(?i)(בין|מה?)" (dim :time) #"(עד)?ל" (dim :time)]
   (interval %2 %4 true)
 
   ; ; Specific for time-of-day, to help resolve ambiguities
@@ -503,9 +507,9 @@
   [#"(?i)אחרי" (dim :time)]
   (merge %2 {:direction :after})
 
-  "since <time-of-day>"
-  [#"(?i)מ" (dim :time)]
-  (merge  (pred-nth %2 -1) {:direction :after})
+  ; "since <time>"
+  ; [#"(?i)מ" (dim :time)]
+  ; (merge (pred-nth %2 -1) {:direction :after})
 
   ; ;; In this special case, the upper limit is exclusive
   ; "<hour-of-day> - <hour-of-day> (interval)"
