@@ -358,8 +358,20 @@
   #"(3[01]|[12]\d|0?[1-9])-(1[0-2]|0?[1-9])-(\d{2,4})"
   (parse-dmy (first (:groups %1)) (second (:groups %1)) (nth (:groups %1) 2) true)
 
+  "dd.mm.yyyy"
+  #"(3[01]|[12]\d|0?[1-9])\.(1[0-2]|0?[1-9])\.(\d{2,4})"
+  (parse-dmy (first (:groups %1)) (second (:groups %1)) (nth (:groups %1) 2) true)
+
+  "dd.mm.yyyy"
+  #"(3[01]|[12]\d|0?[1-9])\.(1[0-2]|0?[1-9])\.(\d{2,4})"
+  (parse-dmy (first (:groups %1)) (second (:groups %1)) (nth (:groups %1) 2) true)
+
   "dd/mm"
   #"(3[01]|[12]\d|0?[1-9])\/(1[0-2]|0?[1-9])"
+  (parse-dmy (first (:groups %1)) (second (:groups %1)) nil true)
+
+  "dd.mm"
+  #"(3[01]|[12]\d|0?[1-9])\.(1[0-2]|0?[1-9])"
   (parse-dmy (first (:groups %1)) (second (:groups %1)) nil true)
 
   ; Part of day (morning, evening...). They are intervals.
@@ -459,7 +471,7 @@
   ; ; Blocked for :latent time. May need to accept certain latents only, like hours
 
   "<datetime> - <datetime> (interval)"
-  [(dim :time #(not (:latent %))) #"\-|עד?" (dim :time #(not (:latent %)))]
+  [(dim :time #(not (:latent %))) #"\-|עד (ה|ל)?" (dim :time #(not (:latent %)))]
   (interval %1 %3 true)
 
   "from <datetime> - <datetime> (interval)"
