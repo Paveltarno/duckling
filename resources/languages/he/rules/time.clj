@@ -60,51 +60,51 @@
   (day-of-week 7)
 
   "named-month"
-  #"(?i)ינואר"
+  #"(?i)ינואר|ראשון"
   (month 1)
 
   "named-month"
-  #"(?i)פברואר"
+  #"(?i)פברואר|שני"
   (month 2)
 
   "named-month"
-  #"(?i)מרץ"
+  #"(?i)מרץ|שלישי"
   (month 3)
 
   "named-month"
-  #"(?i)אפריל"
+  #"(?i)אפריל|רביעי"
   (month 4)
 
   "named-month"
-  #"(?i)מאי"
+  #"(?i)מאי|חמישי"
   (month 5)
 
   "named-month"
-  #"(?i)יוני"
+  #"(?i)יוני|שישי"
   (month 6)
 
   "named-month"
-  #"(?i)יולי"
+  #"(?i)יולי|שביעי"
   (month 7)
 
   "named-month"
-  #"(?i)אוגוסט"
+  #"(?i)אוגוסט|שמיני"
   (month 8)
 
   "named-month"
-  #"(?i)ספטמבר"
+  #"(?i)ספטמבר|תשיעי"
   (month 9)
 
   "named-month"
-  #"(?i)אוקטובר"
+  #"(?i)אוקטובר|עשירי"
   (month 10)
 
   "named-month"
-  #"(?i)נובמבר"
+  #"(?i)נובמבר|אחד עשרה"
   (month 11)
 
   "named-month"
-  #"(?i)דצמבר"
+  #"(?i)דצמבר|שתיים עשרה"
   (month 12)
 
   "absorption of , after named day"
@@ -475,7 +475,7 @@
   (interval %1 %3 true)
 
   "from <datetime> - <datetime> (interval)"
-  [#"(?i)מ|משעה" (dim :time) #"\-|עד" (dim :time)]
+  [#"(?i)מ|משעה" (dim :time) #"\-|עד (ה|ל)?" (dim :time)]
   (interval %2 %4 true)
 
   "between <datetime> and <datetime> (interval)"
@@ -516,7 +516,7 @@
   (merge %2 {:direction :before})
 
   "after <time-of-day>"
-  [#"(?i)אחרי" (dim :time)]
+  [#"(?i)מ" (dim :time)]
   (merge %2 {:direction :after})
 
   ; "since <time>"

@@ -68,12 +68,17 @@
   {:dim :duration
    :value (duration :minute (+ 30 (* 60 (:value %1))))}
 
+  "<unit-of-duration>"
+  [(dim :unit-of-duration)]
+  {:dim :duration
+   :value (duration (:grain %1) 1)}
+
   "in <duration>"
   [#"(?i)בעוד" (dim :duration)]
   (in-duration (:value %2))
 
   "for <duration>"
-  [#"(?i)תוך" (dim :duration)]
+  [#"(?i)ל" (dim :duration)]
   (in-duration (:value %2))
 
   "after <duration>"
