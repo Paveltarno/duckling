@@ -472,15 +472,15 @@
 
   "<datetime> - <datetime> (interval)"
   [(dim :time #(not (:latent %))) #"\-|עד (ה|ל)?" (dim :time #(not (:latent %)))]
-  (interval %1 %3 true)
+  (interval %1 %3 false)
 
   "from <datetime> - <datetime> (interval)"
   [#"(?i)מ|משעה" (dim :time) #"\-|עד (ה|ל)?" (dim :time)]
-  (interval %2 %4 true)
+  (interval %2 %4 false)
 
   "between <datetime> and <datetime> (interval)"
   [#"(?i)(בין|מה?)" (dim :time) #"(עד)?ל" (dim :time)]
-  (interval %2 %4 true)
+  (interval %2 %4 false)
 
   ; ; Specific for time-of-day, to help resolve ambiguities
 
@@ -494,7 +494,7 @@
 
   "between <time-of-day> and <time-of-day> (interval)"
   [#"(?i)בין" {:form :time-of-day} #"ל" {:form :time-of-day}]
-  (interval %2 %4 true)
+  (interval %2 %4 false)
 
   ; ; Specific for within duration... Would need to be reworked
   ; "within <duration>"
@@ -511,9 +511,11 @@
 
   ; ; One-sided Intervals
 
+  ; We create an interval to be able to include the given day, (i.e <until> 21/2 => 22/2 00:00) 
+  ; this is in order to be consistent with other intrval laws that do the same (like "<datetime> - <datetime> (interval)")
   "until <time-of-day>"
-  [#"(?i)עד" (dim :time)]
-  (merge %2 {:direction :before})
+  [#"(?i)עד( ה)?" (dim :time)]
+  (merge (interval %2 %2 false) {:direction :before}) 
 
   "after <time-of-day>"
   [#"(?i)מ" (dim :time)]

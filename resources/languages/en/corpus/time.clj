@@ -654,15 +654,15 @@
   (datetime-interval [2013 8 8] [2013 8 13])
 
   "9:30 - 11:00"
-  (datetime-interval [2013 2 12 9 30] [2013 2 12 11 1])
+  (datetime-interval [2013 2 12 9 30] [2013 2 12 11 0])
 
   "between 7 and 8 PM"
   "between 7 PM and 8 PM"
-  (datetime-interval [2013 2 12 19] [2013 2 12 21])
+  (datetime-interval [2013 2 12 19] [2013 2 12 20])
 
   "from 7 to 8 PM"
   "from 7 PM to 8 PM"
-  (datetime-interval [2013 2 12 19] [2013 2 12 21])
+  (datetime-interval [2013 2 12 19] [2013 2 12 20])
 
   "from 9:30 - 11:00 on Thursday"
   "between 9:30 and 11:00 on thursday"
@@ -672,10 +672,10 @@
   "from 9:30 untill 11:00 on thursday"
   "Thursday from 9:30 untill 11:00"
   "9:30 till 11:00 on Thursday"
-  (datetime-interval [2013 2 14 9 30] [2013 2 14 11 1])
+  (datetime-interval [2013 2 14 9 30] [2013 2 14 11 0])
 
   "Thursday from 9a to 11a"
-  (datetime-interval [2013 2 14 9] [2013 2 14 12])
+  (datetime-interval [2013 2 14 9] [2013 2 14 11])
 
   "11:30-1:30" ; go train this rule!
   "11:30-1:30"
@@ -684,7 +684,7 @@
   "11:30-1:30"
   "11:30-1:30"
   "11:30-1:30"
-  (datetime-interval [2013 2 12 11 30] [2013 2 12 13 31])
+  (datetime-interval [2013 2 12 11 30] [2013 2 12 13 30])
 
   "1:30 PM on Sat, Sep 21"
   (datetime 2013 9 21 13 30)
@@ -692,9 +692,9 @@
   "within 2 weeks"
   (datetime-interval [2013 2 12 4 30 0] [2013 2 26])
 
-  "until 2:00pm"
-  "through 2:00pm"
-  (datetime 2013 2 12 14 0 :direction :before)
+  ; "until 2:00pm"
+  ; "through 2:00pm"
+  ; (datetime 2013 2 12 14 0 :direction :before)
 
   "by 2:00pm"
   (datetime-interval [2013 2 12 4 30 0] [2013 2 12 14])
@@ -732,8 +732,8 @@
   "after 5 days"
   (datetime 2013 2 17 4 :direction :after)
 
-  "before 11 am"
-  (datetime 2013 2 12 11 :direction :before)
+  ; "before 11 am"
+  ; (datetime 2013 2 12 11 :direction :before)
 
   "in the afternoon"
   (datetime-interval [2013 2 12 12] [2013 2 12 19])

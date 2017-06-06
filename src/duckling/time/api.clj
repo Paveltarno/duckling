@@ -20,7 +20,7 @@
     (#{:before :after} direction)
       (case direction
         :before {:type "interval"
-                 :to   {:value (date-fn start)
+                 :to   {:value (date-fn  (or end start))
                         :grain grain}}
         :after  {:type "interval"
                  :from {:value (date-fn start)
