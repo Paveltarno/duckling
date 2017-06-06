@@ -60,51 +60,51 @@
   (day-of-week 7)
 
   "named-month"
-  #"(?i)ינואר|ראשון"
+  #"(?i)ינואר"
   (month 1)
 
   "named-month"
-  #"(?i)פברואר|שני"
+  #"(?i)פברואר"
   (month 2)
 
   "named-month"
-  #"(?i)מרץ|שלישי"
+  #"(?i)מרץ"
   (month 3)
 
   "named-month"
-  #"(?i)אפריל|רביעי"
+  #"(?i)אפריל"
   (month 4)
 
   "named-month"
-  #"(?i)מאי|חמישי"
+  #"(?i)מאי"
   (month 5)
 
   "named-month"
-  #"(?i)יוני|שישי"
+  #"(?i)יוני"
   (month 6)
 
   "named-month"
-  #"(?i)יולי|שביעי"
+  #"(?i)יולי"
   (month 7)
 
   "named-month"
-  #"(?i)אוגוסט|שמיני"
+  #"(?i)אוגוסט"
   (month 8)
 
   "named-month"
-  #"(?i)ספטמבר|תשיעי"
+  #"(?i)ספטמבר"
   (month 9)
 
   "named-month"
-  #"(?i)אוקטובר|עשירי"
+  #"(?i)אוקטובר"
   (month 10)
 
   "named-month"
-  #"(?i)נובמבר|אחד עשרה"
+  #"(?i)נובמבר"
   (month 11)
 
   "named-month"
-  #"(?i)דצמבר|שתיים עשרה"
+  #"(?i)דצמבר"
   (month 12)
 
   "absorption of , after named day"
