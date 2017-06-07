@@ -393,6 +393,9 @@
   "ממחר עד יום חמישי"
   (datetime-interval [2013 2 13] [2013 2 15])
 
+  "עד ה13 לחודש"
+  (datetime 2013 2 13 :direction :after)
+
   "הערב"
   "היום בערב"
   (datetime-interval [2013 2 12 18] [2013 2 13 00])

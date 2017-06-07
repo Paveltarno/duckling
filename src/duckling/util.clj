@@ -11,6 +11,7 @@
   (:import [java.io IOException OutputStream StringReader]
            [java.math BigInteger]
            [java.lang.management ManagementFactory]
+           [java.lang Character$UnicodeBlock]
            [java.io StringWriter]
            [org.joda.time DateTimeZone DateTime]))
 
@@ -20,6 +21,11 @@
   [pattern input]
   (every? (fn [[key val]] (= val (key input)))
     pattern))
+
+; TODO: Add support for multiple langs
+(defn prefix-lang-char?
+  [char]
+  (= (Character$UnicodeBlock/of char) Character$UnicodeBlock/HEBREW))
 
 (defn valid-limit?
   "Decide if two adjacent chars are reasonably separated
@@ -33,8 +39,10 @@
                                     (re-find #"\p{javaUpperCase}" s) :upper
                                     (re-find #"\p{Digit}" s) :digit
                                     :else s))] ; its own class
-    (not= (get-char-class (str char1))
-          (get-char-class (str char2)))))
+    (not (and (not (prefix-lang-char? char1))
+         (= (get-char-class (str char1))
+            (get-char-class (str char2)))))
+    ))
 
 (defn separated-substring?
   "Since we match regexes without whitespace delimitator, we have to check

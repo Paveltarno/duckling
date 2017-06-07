@@ -214,7 +214,7 @@
   ; In general we are flexible and accept both ordinals (3rd) and numbers (3)
 
   "the <day-of-month> of month(ordinal)" ; this one is not latent
-  [#"(?i)ה" (dim :ordinal #(<= 1 (:value %) 31)) #"(?i)(ל|ה)חודש"]
+  [#"(?i)ה" (dim :ordinal #(<= 1 (:value %) 31)) #"(?i)לחודש"]
   (day-of-month (:value %2))
 
   "the <day-of-month>" ; this one is not latent
@@ -266,11 +266,9 @@
   (intersect %2 (day-of-month (if (#{3 5 7 10} (:month %2)) 15 13)))
 
   ; ;; Hours and minutes (absolute time)
-
   "time-of-day (latent)"
   (integer 0 23)
   (assoc (hour (:value %1) true) :latent true)
-
 
   "at hour <time-of-day>"
   [#"(?i)בשעה" {:form :time-of-day}]
@@ -519,7 +517,7 @@
 
   "after <time-of-day>"
   [#"(?i)מ" (dim :time)]
-  (merge %2 {:direction :after})
+  (merge (interval %2 %2 false) {:direction :after}) 
 
   ; "since <time>"
   ; [#"(?i)מ" (dim :time)]
